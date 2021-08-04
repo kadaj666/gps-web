@@ -12,4 +12,4 @@ git clone https://github.com/kadaj666/gps-web
 cd gps-web
 docker-compose up -d
 ```
-2. Visit http://127.0.0.1:9000 and login with: **admin / admin**
+2. Visit http://127.0.0.1:9009 and login with: **admin / admin**
