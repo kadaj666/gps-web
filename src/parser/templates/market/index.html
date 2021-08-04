@@ -1,0 +1,181 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+
+<div class="content-wrapper" id="app">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <label>Enter apk name (e.g. com.imbaapp.vpn)</label>
+                <div class="input-group bootstrap-touchspin input-group-lg">
+                    <span class="input-group-text bootstrap-touchspin-prefix" style="display: none;"></span>
+                    <input id="apk_name" type="text" value="" class="form-control-lg form-control" style="display: block;">
+                    <span class="input-group-text bootstrap-touchspin-postfix btn btn-light btn-lg" id="add_apk">Add apk</span>
+                </div>
+
+
+                {% if not apks %}
+                <br>
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <div class="alert-icon contrast-alert">
+                        <i class="fa fa-bell"></i>
+                    </div>
+                    <div class="alert-message">
+                        <span><strong>No apk has been added yet!</strong> Please enter an apk name in form above!</span>
+                    </div>
+                </div>
+
+                {% else %}
+                <div class="card">
+                    <div class="card-header"><i class="fa fa-table"></i> Play market apk list</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="stats" class="table table-sm" data-server-side="true" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Apk name</th>
+                                        <th>Added</th>
+                                        <th class="col-md-2">Name</th>
+                                        <th>Last check</th>
+                                        <th>Installs</th>
+                                        <th>Score</th>
+                                        <th>Ratings</th>
+                                        <th>Reviews</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <!--start overlay-->
+        <div class="overlay toggle-menu"></div>
+        <!--end overlay-->
+    </div>
+    <!-- End container-fluid-->
+</div>
+<!--End content-wrapper-->
+
+{% endblock content %} {% block extra_js %}
+
+
+<script>
+    $('#add_apk').on('click', function() {
+
+        $.ajax({
+            url: "/api/market",
+            method: "POST",
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            data: {
+                "apk": $('#apk_name').val()
+            },
+            dataType: "json",
+            statusCode: {
+                201: function() {
+
+                    location.reload();
+                },
+                400: function() {
+                    location.reload();
+                }
+            }
+        });
+    });
+    $.fn.dataTable.render.moment = function(from, to, locale) {
+        // Argument shifting
+        if (arguments.length === 1) {
+            locale = 'en';
+            to = from;
+            from = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS";
+        } else if (arguments.length === 2) {
+            locale = 'en';
+
+        }
+        return function(d, type, row) {
+            if (!d) {
+                return type === 'sort' || type === 'type' ? 0 : d;
+            }
+            var m = window.moment(d);
+            return m.format(type === 'sort' || type === 'type' ? 'x' : to);
+        };
+    };
+
+    var table_btn = '<span class="actions" >' + '<a href="#" class="edit" ><i class="fa fa-trash"></i></a>' + '</span>'
+    var table = $('#stats').DataTable({
+        "ajax": "/api/market?format=datatables",
+        "serverSide": true,
+        "pageLength": 25,
+        "columns": [{
+            "data": "apk"
+        }, {
+            "data": "date",
+            render: $.fn.dataTable.render.moment('YYYY-MM-DD HH:mm:ss')
+        }, {
+            "data": "name",
+            render: function(data) {
+                return `<a href="${data.url}" target="_blank" data-title="Hostname"> ${data.name} <i class="zmdi zmdi-open-in-new"></i></a>`
+            }
+        }, {
+            "data": "last_sync"
+        }, {
+            "data": "installs"
+        }, {
+            "data": "score"
+        }, {
+            "data": "ratings"
+        }, {
+            "data": "reviews"
+        }, {
+            "data": null
+        }],
+        columnDefs: [{
+            "targets": -1,
+            "data": null,
+            "defaultContent": table_btn
+        }],
+        createdRow: function(row, data) {
+            if (data['last_sync'] == '') {
+
+                $(row).addClass('badge-dark');
+            }
+        },
+        order: [
+            [1, "desc"]
+        ],
+    });
+
+
+    $('#stats tbody').on('click', '.actions', function() {
+        apk_id = table.row($(this).parents('tr')).data()["name"]["id"];
+
+        $.ajax({
+            url: "/api/market/" + apk_id,
+            method: "DELETE",
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            statusCode: {
+                204: function() {
+                    location.reload();
+                },
+                400: function() {
+                    location.reload();
+                }
+            }
+        });
+
+    });
+</script>
+
+{% endblock extra_js %}
+
+
+
+<button type="button" class="btn btn-light btn-sm m-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">
+  Tooltip on top
+</button>

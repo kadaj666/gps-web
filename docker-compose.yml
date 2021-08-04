@@ -1,0 +1,37 @@
+version: '2'
+services:
+  web:
+    container_name: web
+    image: python:3.6
+    stdin_open: true
+    working_dir: /opt
+    entrypoint:
+    - /opt/src/entrypoint.sh
+    volumes:
+    - ./src:/opt/src/
+    tty: true
+    ports:
+    - 9009:9009/tcp
+
+  postgres:
+    container_name: postgres
+    build:
+      context: .
+      dockerfile: ./Dockerfile.db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: webg
+      POSTGRES_PASSWORD: postgres
+    stdin_open: true
+    tty: true
+
+  rabbit:
+    container_name: rabbit
+    image: rabbitmq:latest
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbit
+      RABBITMQ_DEFAULT_PASS: rabbit
+      RABBITMQ_DEFAULT_VHOST: default
+    stdin_open: true
+    tty: true
+
