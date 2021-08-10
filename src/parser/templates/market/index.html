@@ -1,19 +1,14 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-
-
 <div class="content-wrapper" id="app">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-
                 <label>Enter apk name (e.g. com.imbaapp.vpn)</label>
                 <div class="input-group bootstrap-touchspin input-group-lg">
                     <span class="input-group-text bootstrap-touchspin-prefix" style="display: none;"></span>
                     <input id="apk_name" type="text" value="" class="form-control-lg form-control" style="display: block;">
                     <span class="input-group-text bootstrap-touchspin-postfix btn btn-light btn-lg" id="add_apk">Add apk</span>
                 </div>
-
-
                 {% if not apks %}
                 <br>
                 <div class="alert alert-info alert-dismissible" role="alert">
@@ -24,7 +19,6 @@
                         <span><strong>No apk has been added yet!</strong> Please enter an apk name in form above!</span>
                     </div>
                 </div>
-
                 {% else %}
                 <div class="card">
                     <div class="card-header"><i class="fa fa-table"></i> Play market apk list</div>
@@ -33,14 +27,11 @@
                             <table id="stats" class="table table-sm" data-server-side="true" style="width:100%">
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th>Apk name</th>
+                                        <th class="col-md-2">Title</th>
                                         <th>Added</th>
-                                        <th class="col-md-2">Name</th>
                                         <th>Last check</th>
-                                        <th>Installs</th>
-                                        <th>Score</th>
-                                        <th>Ratings</th>
-                                        <th>Reviews</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -51,16 +42,10 @@
                 {% endif %}
             </div>
         </div>
-        <!--start overlay-->
         <div class="overlay toggle-menu"></div>
-        <!--end overlay-->
     </div>
-    <!-- End container-fluid-->
 </div>
-<!--End content-wrapper-->
-
 {% endblock content %} {% block extra_js %}
-
 
 <script>
     $('#add_apk').on('click', function() {
@@ -111,25 +96,29 @@
         "serverSide": true,
         "pageLength": 25,
         "columns": [{
-            "data": "apk"
+            "data": "icon",
+            render: function(data) {
+                return `<img src="${data}" width="20px" height="20px">`
+            }
+        }, {
+            "data": "apk",
+            render: function(data) {
+                return `<a href="${data}" class="text-warning" ></i> ${data} </a>`
+            }
+        }, {
+            "data": "title"
         }, {
             "data": "date",
             render: $.fn.dataTable.render.moment('YYYY-MM-DD HH:mm:ss')
         }, {
-            "data": "name",
+            "data": "last_sync",
             render: function(data) {
-                return `<a href="${data.url}" target="_blank" data-title="Hostname"> ${data.name} <i class="zmdi zmdi-open-in-new"></i></a>`
+                if (data == '') {
+                    return `Not synced yet`
+                } else {
+                    return `${data} ago`
+                }
             }
-        }, {
-            "data": "last_sync"
-        }, {
-            "data": "installs"
-        }, {
-            "data": "score"
-        }, {
-            "data": "ratings"
-        }, {
-            "data": "reviews"
         }, {
             "data": null
         }],

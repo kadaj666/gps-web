@@ -13,6 +13,10 @@ def index(request):
     context = {'apks':apk}
     return render(request, 'market/index.html', context)
 
+def details(request, apk):
+    apk = MarketApk.objects.get(apk=apk)
+    context = {'apk':apk}
+    return render(request, 'market/details.html', context)
 
 class MarketApkViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]

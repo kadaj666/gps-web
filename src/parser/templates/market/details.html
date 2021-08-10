@@ -1,0 +1,265 @@
+{% extends "base.html" %} {% load static %} {% block content %} {% load humanize %}
+
+<div class="content-wrapper" id="app">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <section class="content-header">
+                            <h3>
+                                <img src="{{apk.icon}}" width="50px" height="50px"> {{apk.title}}
+                            </h3>
+                            <p class="mb-0 text-white">{{apk.summary}}</p>
+                        </section>
+                        <hr>
+                        <section class="invoice">
+                            <div class="row mt-3">
+                                <div class="col-lg-8">
+                                    <p class="mb-0 text-white"><i class="zmdi zmdi-google-play"></i> {{apk}}</p>
+                                    <p class="mb-0 text-white"><i class="zmdi zmdi-android text-white"></i> {{apk.androidVersionText}}</p>
+                                    <p class="mb-0 text-white"><i class="zmdi zmdi-case-download text-white"></i> {{apk.size}}</p>
+                                    <span class="badge badge-light"> Genre: {{apk.genre}}</span>
+                                    <span class="badge badge-light"> Content Rating: Everyone</span>
+                                </div>
+                                <div class="col-lg-4 ">
+                                    <span class="badge badge-primary float-sm-right">Released: {{apk.released}}</span><br>
+                                    <span class="badge badge-primary float-sm-right">Updated: {{apk.updated}}</span><br>
+                                    <span class="badge badge-primary float-sm-right">Version: {{apk.version}}</span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row mt-3">
+                                <div class="col-12 col-lg-6 col-xl-3">
+                                    <div class="card gradient-transparent">
+                                        <div class="card-body">
+                                            <div class="media align-items-center">
+                                                <div class="media-body">
+                                                    <h5 class="mb-0 text-white">{{apk.score |floatformat:"2"}}</h5>
+                                                    <p class="mb-0 text-white">Score</p>
+                                                </div>
+                                                <div class="w-icon"><i class="zmdi zmdi-star text-white"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xl-3">
+                                    <div class="card gradient-transparent">
+                                        <div class="card-body">
+                                            <div class="media align-items-center">
+                                                <div class="media-body">
+                                                    <h5 class="mb-0 text-white">{{apk.ratings }}</h5>
+                                                    <p class="mb-0 text-white">Ratings</p>
+                                                </div>
+                                                <div class="w-icon"><i class="zmdi zmdi-account text-white"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xl-3">
+                                    <div class="card gradient-transparent">
+                                        <div class="card-body">
+                                            <div class="media align-items-center">
+                                                <div class="media-body">
+                                                    <h5 class="mb-0 text-white">{{apk.installs }}</h5>
+                                                    <p class="mb-0 text-white">Installs</p>
+                                                </div>
+                                                <div class="w-icon"><i class="zmdi zmdi-smartphone-download text-white"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xl-3">
+                                    <div class="card gradient-transparent">
+                                        <div class="card-body">
+                                            <div class="media align-items-center">
+                                                <div class="media-body">
+                                                    <h5 class="mb-0 text-white">{{apk.reviews }}</h5>
+                                                    <p class="mb-0 text-white">Reviews</p>
+                                                </div>
+                                                <div class="w-icon"><i class="zmdi zmdi-comment-text text-white"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-lg-12 col-xl-12">
+                                    <div class="card bubble">
+                                        <div class="card-body card-block">
+                                            <div class="media align-items-center">
+                                                <div class="media-body">
+                                                    <h4 class="mb-0 text-white">Developer</h4>
+                                                    <p class="mb-0"><a class="text-warning" href="https://play.google.com/store/apps/developer?id={{apk.developer}}&hl=en&gl=us" target="_blank"><i class="zmdi zmdi-google-play"></i> {{apk.developerid}}</a></p>
+                                                    <p class="extra-small-font mt-3 mb-0 text-white"><i class="zmdi zmdi-email"></i> {{apk.developerEmail}} <br> <a class="text-warning" href="{{apk.developerWebsite}}" target="_blank"><i class="zmdi zmdi-link"></i> {{apk.developerWebsite}}</a></p>
+                                                </div>
+                                                <div class="position-relative"><i class="zmdi zmdi zmdi-android fa-5x text-white"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="accordion8">
+                                        <div class="card border border-primary">
+                                            <div class="card-header">
+                                                <button class="btn btn-link shadow-none text-primary collapsed" data-toggle="collapse" data-target="#collapse-24" aria-expanded="false" aria-controls="collapse-24">
+                                                                Screenshots
+                                                              </button>
+                                            </div>
+                                            <div id="collapse-24" class="collapse" data-parent="#accordion8">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        {% for image in apk.screenshots %}
+                                                        <div class="col-md-3 col-lg-3 col-xl-3">
+                                                            <img src="{{image}}" class="lightbox-thumb img-thumbnail">
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-12 col-lg-12 col-xl-12">
+                                    <p class="bg-light p-2 mt-3 rounded">
+                                        {{apk.descriptionHTML |safe}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-lg-12 col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">Customer Review
+                                            <div class="card-action">
+                                                <div class="dropdown">
+                                                    <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                                                        <i class="icon-options"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="javascript:void();">Action</a>
+                                                        <a class="dropdown-item" href="javascript:void();">Another action</a>
+                                                        <a class="dropdown-item" href="javascript:void();">Something else here</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void();">Separated link</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item bg-transparent">
+                                                <div class="media align-items-center">
+                                                    <img src="https://via.placeholder.com/110x110" alt="user avatar" class="customer-img rounded-circle">
+                                                    <div class="media-body ml-3">
+                                                        <h6 class="mb-0">iPhone X <small class="ml-4">08.34 AM</small></h6>
+                                                        <p class="mb-0 small-font">Sara Jhon : This i svery Nice phone in low budget.</p>
+                                                    </div>
+                                                    <div class="star">
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star text-light"></i>
+                                                        <i class="zmdi zmdi-star text-light"></i>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item bg-transparent">
+                                                <div class="media align-items-center">
+                                                    <img src="https://via.placeholder.com/110x110" alt="user avatar" class="customer-img rounded-circle">
+                                                    <div class="media-body ml-3">
+                                                        <h6 class="mb-0">Air Pod <small class="ml-4">05.26 PM</small></h6>
+                                                        <p class="mb-0 small-font">Danish Josh : The brand apple is original !</p>
+                                                    </div>
+                                                    <div class="star">
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star text-light"></i>
+                                                        <i class="zmdi zmdi-star text-light"></i>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item bg-transparent">
+                                                <div class="media align-items-center">
+                                                    <img src="https://via.placeholder.com/110x110" alt="user avatar" class="customer-img rounded-circle">
+                                                    <div class="media-body ml-3">
+                                                        <h6 class="mb-0">Mackbook Pro <small class="ml-4">06.45 AM</small></h6>
+                                                        <p class="mb-0 small-font">Jhon Doe : Excllent product and awsome quality</p>
+                                                    </div>
+                                                    <div class="star">
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star text-light"></i>
+                                                        <i class="zmdi zmdi-star text-light"></i>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item bg-transparent">
+                                                <div class="media align-items-center">
+                                                    <img src="https://via.placeholder.com/110x110" alt="user avatar" class="customer-img rounded-circle">
+                                                    <div class="media-body ml-3">
+                                                        <h6 class="mb-0">Air Pod <small class="ml-4">08.34 AM</small></h6>
+                                                        <p class="mb-0 small-font">Christine : The brand apple is original !</p>
+                                                    </div>
+                                                    <div class="star">
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star text-light"></i>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item bg-transparent">
+                                                <div class="media align-items-center">
+                                                    <img src="https://via.placeholder.com/110x110" alt="user avatar" class="customer-img rounded-circle">
+                                                    <div class="media-body ml-3">
+                                                        <h6 class="mb-0">Mackbook <small class="ml-4">08.34 AM</small></h6>
+                                                        <p class="mb-0 small-font">Michle : The brand apple is original !</p>
+                                                    </div>
+                                                    <div class="star">
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star"></i>
+                                                        <i class="zmdi zmdi-star text-light"></i>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </section>
+                        <!-- /.content -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--start overlay-->
+        <div class="overlay toggle-menu"></div>
+        <!--end overlay-->
+    </div>
+    <!-- End container-fluid-->
+</div>
+<!--End content-wrapper-->
+
+{% endblock content %} {% block extra_js %} {% endblock extra_js %}
+
+
+
+<button type="button" class="btn btn-light btn-sm m-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">
+  Tooltip on top
+</button>

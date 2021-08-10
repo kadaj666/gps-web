@@ -11,5 +11,5 @@ router.register(r'market', views.MarketApkViewSet)
 
 urlpatterns = [
     path('', views.index, name='market'),
-
+    path('<apk>', views.details, name='details'),
 ]
