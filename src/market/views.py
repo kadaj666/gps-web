@@ -1,21 +1,25 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from rest_framework import permissions
-from django.core.serializers import serialize
 from .serializers import MarketApkSerializer
-from .models import MarketApk
+from .models import MarketApk, ApkReview
+
+
 
 @login_required
 def index(request):
-    apk = MarketApk.objects.all()
-    context = {'apks':apk}
+    apk_name = MarketApk.objects.all()
+    context = {'apks':apk_name}
     return render(request, 'market/index.html', context)
 
-def details(request, apk):
-    apk = MarketApk.objects.get(apk=apk)
-    context = {'apk':apk}
+def details(request, apk_id):
+    try:
+        apk_name = MarketApk.objects.get(apk=apk_id)
+    except:
+        apk_name = None 
+    reveiws =  ApkReview.objects.filter(apk=apk_name).order_by('-at')
+    context = {'apk':apk_name, 'reviews':reveiws}
     return render(request, 'market/details.html', context)
 
 class MarketApkViewSet(viewsets.ModelViewSet):

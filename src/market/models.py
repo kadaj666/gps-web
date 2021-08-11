@@ -38,11 +38,13 @@ class ApkReview(models.Model):
     apk = models.ForeignKey(MarketApk, on_delete=models.CASCADE)
     userName = models.CharField(max_length=300, null=True, blank=True)
     userImage = models.CharField(max_length=300, null=True, blank=True)
-    content = models.CharField(max_length=1000, null=True, blank=True)
-    score =models.IntegerField(null=True, blank=True)
+    content = models.CharField(max_length=10000, null=True, blank=True)
+    score = models.IntegerField(null=True, blank=True)
     thumbsUpCount = models.IntegerField(null=True, blank=True)
     reviewCreatedVersion = models.CharField(max_length=1000, null=True, blank=True)
     at = models.DateTimeField(null=True, blank=True)
-    replyContent = models.CharField(max_length=1000, null=True, blank=True)
+    replyContent = models.CharField(max_length=10000, null=True, blank=True)
     repliedAt = models.DateTimeField(null=True, blank=True)
     reviewId = models.CharField(max_length=1000, null=True, blank=True)
+    def __str__(self):
+        return self.userName

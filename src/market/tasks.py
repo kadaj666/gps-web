@@ -13,7 +13,7 @@ def get_unparsed_apk():
     new_apk = MarketApk.objects.all()
     for apk in new_apk:
         sync_apk_market.delay(apk.id)
-        # sync_apk_reviews.delay(apk.id)
+        sync_apk_reviews.delay(apk.id)
     return ("Done Parsing")
 
 
@@ -52,9 +52,32 @@ def sync_apk_market(apk):
     apk_instance.save()
 
 
-# @shared_task(queue="parse_market", default_retry_delay=30, max_retries=3)
-# def sync_apk_reviews(apk):
-#     review_instance = MarketApk.objects.get(id=apk)
-#     result = reviews(review_instance.apk, lang='en', country='us', sort=Sort.MOST_RELEVANT, count=100)
-#     for review in result:
-#         apk_instance.title=result['title']
+@shared_task(queue="parse_market", default_retry_delay=30, max_retries=3)
+def sync_apk_reviews(apk):
+    apk_instance = MarketApk.objects.get(id=apk)
+    result = reviews(apk_instance, lang='en', country='us', sort=Sort.MOST_RELEVANT, count=100)
+    print(result)
+    for item in result:
+        for review in item:
+
+            try:
+                rew = ApkReview.objects.get(content=review["content"], apk = apk_instance)
+                
+            except ApkReview.DoesNotExist:
+                rev = ApkReview.objects.create(
+                    apk = apk_instance,
+                    userName=review["userName"], 
+                    userImage=review["userImage"], 
+                    content=review["content"], 
+                    score=review["score"], 
+                    thumbsUpCount=review["thumbsUpCount"],
+                    reviewCreatedVersion=review["reviewCreatedVersion"],
+                    at=review["at"],
+                    replyContent=review["replyContent"],
+                    repliedAt=review["repliedAt"],
+                    reviewId=review["reviewId"],
+                    )
+
+
+
+            
