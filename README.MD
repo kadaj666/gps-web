@@ -12,7 +12,7 @@ git clone https://github.com/kadaj666/gps-web
 cd gps-web
 sudo sudo docker-compose up --build -d
 ```
-2. Wait untill is up
+2. Wait untill is up (2-3 minutes)
 
 3. Visit http://127.0.0.1:9009 and login with: **admin / admin**
 
