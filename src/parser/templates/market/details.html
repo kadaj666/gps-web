@@ -153,20 +153,7 @@
                                 <div class="col-12 col-lg-12 col-xl-12">
                                     <div class="card">
                                         <div class="card-header">Reviews
-                                            <div class="card-action">
-                                                <div class="dropdown">
-                                                    <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
-                                                        <i class="icon-options"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="javascript:void();">Action</a>
-                                                        <a class="dropdown-item" href="javascript:void();">Another action</a>
-                                                        <a class="dropdown-item" href="javascript:void();">Something else here</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="javascript:void();">Separated link</a>
-                                                    </div>
-                                                </div>
-                                            </div>
+     
                                         </div>
                                         <ul class="list-group list-group-flush">
 
@@ -175,9 +162,10 @@
                                                 <div class="media align-items-center">
                                                     <img src="{{review.userImage}}" alt="user avatar" class="customer-img rounded-circle">
                                                     <div class="media-body ml-3">
-                                                        <h6 class="mb-0">{{review.userName}} <small class="ml-4">{{review.at}}</small></h6>
+                                                        <h6 class="mb-0">{{review.userName}} <i class="zmdi zmdi-thumb-up text-white"></i> {{review.thumbsUpCount}}<small class="ml-4">{{review.at}}</small></h6>
                                                         <p class="mb-0 small-font">{{review.content}}</p>
                                                     </div>
+                                                   
                                                     <div class="star">
                                                         {% with ''|center:5 as range %} 
                                                             {% for _ in range %} 
@@ -189,17 +177,26 @@
                                                             {% endfor %}
                                                         {% endwith %}
                                                     </div>
+                                                   
                                                 </div>
+                                                {% if review.replyContent %} 
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="media-body ml-3 ">
+                                                        <div class="media-body ml-5 bg-light p-2 mt-3 rounded">
+                                                            <small >{{review.repliedAt}}</small>
+                                                            <p class="mb-0 extra-small-font text-white">{{review.replyContent}}</p>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
                                             </li>
                                             {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-
-
-
-
                         </section>
                         <!-- /.content -->
                     </div>

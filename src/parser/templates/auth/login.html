@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>APK PARSER</title>
+
+    <!--favicon-->
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+
+    <!-- Bootstrap core CSS-->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <!-- animate CSS-->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Icons CSS-->
+    <link href="{% static 'css/icons.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Sidebar CSS-->
+    <link href="{% static 'css/sidebar-menu.css' %}" rel="stylesheet" />
+    <!-- Custom Style-->
+    <link href="{% static 'css/app-style.css' %}" rel="stylesheet" />
+
+
+
+</head>
+<body class="bg-theme bg-theme9">
+    <div id="pageloader-overlay" class="visible incoming" style="display: none;">
+        <div class="loader-wrapper-outer">
+            <div class="loader-wrapper-inner">
+                <div class="loader"></div>
+            </div>
+        </div>
+    </div>
+    <div id="wrapper">
+        <div class="loader-wrapper">
+            <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="card card-authentication1 mx-auto my-5">
+            <div class="card-body">
+                <div class="card-content p-2">
+                    <div class="text-center">
+                        <img src="{% static 'images/logo-icon.png' %}" alt="logo icon">
+                    </div>
+                    <div class="card-title text-uppercase text-center py-3">Sign In</div>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="exampleInputUsername" class="sr-only">Username</label>
+                            <div class="position-relative has-icon-right">
+                                {{ form.username }}
+                                
+                                <div class="form-control-position">
+                                    <i class="icon-user"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword" class="sr-only">Password</label>
+                            <div class="position-relative has-icon-right">
+                                {{ form.password }}
+                               
+                                <div class="form-control-position">
+                                    <i class="icon-lock"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-light btn-block">Sign In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

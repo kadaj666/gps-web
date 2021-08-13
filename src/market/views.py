@@ -13,6 +13,7 @@ def index(request):
     context = {'apks':apk_name}
     return render(request, 'market/index.html', context)
 
+@login_required
 def details(request, apk_id):
     try:
         apk_name = MarketApk.objects.get(apk=apk_id)

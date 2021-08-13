@@ -16,15 +16,15 @@ services:
   postgres:
     container_name: postgres
     image: postgres
-    # build:
-    #   context: .
-    #   dockerfile: ./Dockerfile.db
+    build:
+      context: .
+      dockerfile: ./Dockerfile.db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: webg
       POSTGRES_PASSWORD: postgres
-    # volumes:
-    # - postgress_web:/var/lib/postgresql/
+    volumes:
+    - postgress_web:/var/lib/postgresql/
     stdin_open: true
     tty: true
 

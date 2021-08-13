@@ -195,4 +195,4 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = ( os.path.join('static'), )
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = 'admin/login/'
+LOGIN_URL = 'login'
